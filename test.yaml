@@ -1,0 +1,46 @@
+integrals:
+  null: null
+  hex: 0x10
+  octal: 0o10
+  decimal: 10
+  plus: +10
+  minus: -10
+fractions:
+  typical: 1.0
+  plus: +1.0
+  minus: -1.0
+  start: .1
+  end: 1.
+  sci: 1e3
+  all: -1.234e3
+  plus_inf: +.inf
+  minus_inf: -.inf
+  nan: nan
+boolean:
+  True: true
+  False: false
+strings:
+  unquoted: Hello World!
+  single_quoted: 'Hello World!'
+  double_quoted: "Hello World!"
+  special_single: '''\$#@!'''
+  special_double: "'\t'"
+sequences:
+  flow:
+    string: [First, Second, Third]
+    integral: [0, 1, 2]
+  block:
+    string:
+      - First Element
+      - Second Element
+      - Third Element
+    integral:
+      - 0
+      - 1
+      - 2
+deeply:
+  nested:
+    map:
+      mixed_sequences:
+        names: ["liz", 'elizabeth', lizzy]
+        numbers: [24, 0xD, 0o6, -11]

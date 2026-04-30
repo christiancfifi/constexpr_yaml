@@ -1,0 +1,37 @@
+add_requires("ctre", "boost_ut")
+
+option("clang_p2996_dir")
+    set_description("Base path to the Clang P2996 build directory")
+
+target("clang_p2996_env")
+  set_kind("headeronly")
+  on_load(function (target)
+    import("core.project.config")
+    local base = config.get("clang_p2996_dir")
+    if base then
+      target:add("includedirs", base .. "/include/x86_64-unknown-linux-gnu/c++/v1/", {public = true})
+      target:add("includedirs", base .. "/include/c++/v1/", {public = true})
+      target:add("linkdirs", base .. "/lib/x86_64-unknown-linux-gnu", {public = true})
+      target:add("ldflags", "-Wl,-rpath," .. base .. "/lib/x86_64-unknown-linux-gnu", {public = true})
+      target:add("shflags", "-Wl,-rpath," .. base .. "/lib/x86_64-unknown-linux-gnu", {public = true})
+    end
+    --target:add("cxxflags", "-std=c++26 -freflection-latest -fexpansion-statements -nostdinc++ -stdlib=libc++ -nostdlib --unwindlib=libunwind --rtlib=compiler-rt", {public = true, force = true})
+    target:add("cxxflags", "-std=c++26 -freflection-latest -fexpansion-statements -stdlib=libc++ --unwindlib=libunwind --rtlib=compiler-rt", {public = true, force = true})
+    target:add("links", "c++", "c++abi", {public = true})
+    target:add("ldflags", "-stdlib=libc++", {public = true})
+  end)
+
+target("constexpr_yaml")
+  set_kind("headeronly")
+  set_languages("c++2c")
+  add_deps("clang_p2996_env")
+  add_headerfiles("constexpr_yaml.hpp")
+  add_includedirs(".", {public = true})
+  add_packages("ctre", {public = true})
+
+target("test")
+  set_kind("binary")
+  add_deps("constexpr_yaml")
+  add_files("test.cpp")
+  add_packages("boost_ut")
+  add_tests("test_suite")
